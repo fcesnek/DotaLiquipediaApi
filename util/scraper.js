@@ -208,9 +208,7 @@ module.exports = {
     const selector = cheerio.load(html);
   
     const tournamentList = selector("ul.tournaments-list").children();
-    const upcoming = [];
-    const ongoing = [];
-    const completed = [];
+    const tourneysList = [];
   
     tournamentList.map((index, element) => {
       let tourneys;
@@ -219,9 +217,10 @@ module.exports = {
         tourneys.map((index, el) => {
           let name = selector(el).find("span.tournaments-list-name").text();
           let link = baseUrl + selector(el).find("a").attr("href");
-          upcoming.push({
+          tourneysList.push({
             name,
-            link
+            link,
+            status: "Upcoming"
           })
         }).get();
       } else if (index === 1) {
@@ -229,9 +228,10 @@ module.exports = {
         tourneys.map((index, el) => {
           let name = selector(el).find("span.tournaments-list-name").text();
           let link = baseUrl + selector(el).find("a").attr("href");
-          ongoing.push({
+          tourneysList.push({
             name,
-            link
+            link,
+            status: "Ongoing"
           })
         }).get();
       } else {
@@ -239,19 +239,16 @@ module.exports = {
         tourneys.map((index, el) => {
           let name = selector(el).find("span.tournaments-list-name").text();
           let link = baseUrl + selector(el).find("a").attr("href");
-          completed.push({
+          tourneysList.push({
             name,
-            link
+            link,
+            status: "Completed"
           })
         }).get();
       }
     }).get();
   
-    return {
-      upcoming,
-      ongoing,
-      completed
-    }
+    return tourneysList;
   },
   async scrapeTourneyInfo(url)  {
     const html = await this.fetchHtml(url);
