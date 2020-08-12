@@ -9,7 +9,7 @@ module.exports = {
   },
   async listOngoingAndUpcomingGames(req, res) {
     const games = await LiquipediaScraper.scrapeUpcomingMatches();
-    res.send({matches: games.matches.slice(0, 25)});
+    res.send(games.matches.slice(0, 25));
   },
   async getTournamentInfo(req, res) {
     const { url } = req.query;
