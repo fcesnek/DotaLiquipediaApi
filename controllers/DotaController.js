@@ -28,7 +28,6 @@ module.exports = {
 
     res.send({
       ...tourneyLiquipediaInfo,
-      ...ApiTourneyInfo,
       teams: ApiTeamsInfo,
       matches: uniqueMatches
     });
