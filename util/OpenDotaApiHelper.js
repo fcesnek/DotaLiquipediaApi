@@ -52,7 +52,7 @@ module.exports = {
       })
       if(teamId.length) {
         teamIds.push({
-          id: teamId[0].team_id,
+          id: teamId[0].team_id.toString(),
           name: team.name
         })
       }
@@ -67,15 +67,15 @@ module.exports = {
     })
     const structuredMatches = await filteredMatches.map((entry) => {
       return {
-        matchId: entry.match_id,
+        matchId: entry.match_id.toString(),
         team1: name,
-        team1Id: teamId,
+        team1Id: teamId.toString(),
         team2: entry.opposing_team_name,
-        team2Id: entry.opposing_team_id,
+        team2Id: entry.opposing_team_id.toString(),
         winner: entry.radiant && entry.radiant_win ? name : entry.opposing_team_name,
-        winnerId: entry.radiant && entry.radiant_win ? teamId : entry.opposing_team_id,
+        winnerId: entry.radiant && entry.radiant_win ? teamId.toString() : entry.opposing_team_id.toString(),
         duration: entry.duration,
-        tournamentId: tourney
+        tournamentId: tourney.toString()
       }
     });
     return structuredMatches;
@@ -84,10 +84,10 @@ module.exports = {
     const match = (await axios.get(`https://api.opendota.com/api/matches/${matchId}`)).data;
     const heroes = await this.getHeroes();
     const structuredMatch = {
-      matchId: match.match_id,
+      matchId: match.match_id.toString(),
       radiantTeam: match.radiant_team,
       direTeam: match.dire_team,
-      winner: match.radiant_win ? match.radiant_team.team_id : match.dire_team.team_id,
+      winner: match.radiant_win ? match.radiant_team.team_id.toString() : match.dire_team.team_id.toString(),
     }
     structuredMatch.direPlayers = [];
     structuredMatch.radiantPlayers = [];
@@ -96,8 +96,8 @@ module.exports = {
       if(player.isRadiant) {
         structuredMatch.radiantPlayers.push({
           name: player.name,
-          accountId: player.account_id,
-          heroId: player.hero_id,
+          accountId: player.account_id.toString(),
+          heroId: player.hero_id.toString(),
           hero: heroes.filter((hero) => hero.id === player.hero_id)[0]["localized_name"],
           assists: player.assists,
           kills: player.kills,
@@ -106,8 +106,8 @@ module.exports = {
       } else {
         structuredMatch.direPlayers.push({
           name: player.name,
-          accountId: player.account_id,
-          heroId: player.hero_id,
+          accountId: player.account_id.toString(),
+          heroId: player.hero_id.toString(),
           hero: heroes.filter((hero) => hero.id === player.hero_id)[0]["localized_name"],
           assists: player.assists,
           kills: player.kills,
