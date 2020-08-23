@@ -82,12 +82,14 @@ module.exports = {
   },
   async getMatchDetails (matchId) {
     let match = (await axios.get(`https://api.opendota.com/api/matches/${matchId}`)).data;
-    match = match.map((m) => {
-      return {
-        ...m,
-        team_id: m.team_id.toString() 
-      }
-    })
+    match.radiant_team = {
+      ...match.radiant_team,
+      team_id: match.radiant_team.team_id.toString()
+    }
+    match.dire_team = {
+      ...match.dire_team,
+      team_id: match.dire_team.team_id.toString()
+    }
     const heroes = await this.getHeroes();
     const structuredMatch = {
       matchId: match.match_id.toString(),
