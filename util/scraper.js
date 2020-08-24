@@ -453,7 +453,7 @@ module.exports = {
         } else {
           match["startTime"] = selector(el).find("span.match-countdown").text();
           match["tournament"] =  {
-            name: selector(el).find("td.match-filler").find("div").text().trim(),
+            name: selector(el).find("td.match-filler").find("div > div > a").text().trim(),
             link: baseUrl + selector(el).find("td.match-filler").find("a").attr("href"),
           }
         }
