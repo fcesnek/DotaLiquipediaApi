@@ -28,7 +28,10 @@ const getTourneyInfo = async (name, fuzzySearch) => {
     const fuse = new Fuse(leagues, options);
     
     // Change the pattern
-    const pattern = name.replace("The", "");
+    let pattern = name.replace("The", "");
+    if(pattern.includes("OMEGA League")) {
+      pattern = "OMEGA League";
+    }
     
     return fuse.search(pattern)[0];
   }
